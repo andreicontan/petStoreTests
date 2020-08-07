@@ -1,0 +1,48 @@
+= LeasePlan assignment
+
+== Approach
+
+Framework is using swagger-maven-plugin to generate classes from .yaml spec file.
+Classes are generated as part of `generate-sources` phase
+
+To execute the tests, run from command line. It will execute tests and generate `surefire-report.html`:
+[source,java]
+mvn surefire-report:report
+
+
+Tests implemented:
+
+. addNewPetToStoreReturnsPet
+. getPetByStatus_returnsList
+. getPetByIdReturnsPet
+. getPetByInvalidStatus_returnsEmptyList
+. updateNameExistingPet_ReturnsOK
+
+updateNameExistingPet_ReturnsOK - fails due to a bug on how IDs are being handled. In this case,
+a new ID is generated for every PUT operation on existing Pet. An improvement idea would be to
+have the PUT operation implemented per `/pet/{id}` instead of just `/pet`
+
+
+Short notice, I realized the requirement of having Serenity included in the solution, so I created a copy of the initial tests based on Serenity-Rest-Assured annotations
+
+The test design mainly focused on:
+
+* Readability  - by providing meaningful variable names, clean design, simple tests, hope you'll find it readable :)
+* Arrange/Act/Assert structure
+* Initializing and Cleaning for each test execution using @Before/@After annotations
+* Tried to keep things simple without creating inheritance and too many helper classes
+* Using StringUtils and Random libraries to having to deal with duplicated test data
+* Ability to easily point to a different test environment, by modifying the baseURI via maven command:
+
+`` mvn clean verify -Dserver.host=https://my-new-url:8888``
+
+
+For the assignment the overall focus was in providing a simple and easy to understand technical solution that can easily
+be picked up and understood my a wide variety of people with more or less technical background.
+
+I chose to focus on `/pet` only due to time constraints. If the rest of the APIs are posing additional challenges, would be happy to have a look, specifically on those.
+
+== CI/CD
+Gitlab implementation is found under `.gitlab-ci.yml` implemented based on the documentation and was not executed in a Gitlab instance.
+
+
