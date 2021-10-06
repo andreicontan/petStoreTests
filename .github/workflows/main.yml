@@ -27,7 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Build & Unit Test
-        run: mvn clean install
+        run: mvn surefire-report:report
 
       # Runs a set of commands using the runners shell
       - name: Run Integration tests
